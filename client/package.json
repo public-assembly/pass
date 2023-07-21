@@ -10,7 +10,10 @@
     "format": "rome format . --write"
   },
   "dependencies": {
+    "@airstack/airstack-react": "^0.4.5",
+    "@biconomy/account": "3.0.0-alpha.0",
     "connectkit": "^1.5.0",
+    "lanyard": "^1.1.2",
     "next": "^13.4.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
