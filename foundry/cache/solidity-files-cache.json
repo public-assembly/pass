@@ -857,10 +857,92 @@
         }
       }
     },
-    "script/Counter.s.sol": {
-      "lastModificationDate": 1689984292737,
-      "contentHash": "0705c52104730a78aef4aa6694175c81",
-      "sourceName": "script/Counter.s.sol",
+    "lib/solady/src/utils/MerkleProofLib.sol": {
+      "lastModificationDate": 1689984707922,
+      "contentHash": "62fa73b681495e22a0c9978d8b49a070",
+      "sourceName": "lib/solady/src/utils/MerkleProofLib.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.4",
+      "artifacts": {
+        "MerkleProofLib": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "MerkleProofLib.sol/MerkleProofLib.json"
+        }
+      }
+    },
+    "lib/solmate/src/tokens/ERC20.sol": {
+      "lastModificationDate": 1689984939873,
+      "contentHash": "0c7c7ada139062536af09d69d96d395c",
+      "sourceName": "lib/solmate/src/tokens/ERC20.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": ">=0.8.0",
+      "artifacts": {
+        "ERC20": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "ERC20.sol/ERC20.json"
+        }
+      }
+    },
+    "script/Deploy.s.sol": {
+      "lastModificationDate": 1689984811791,
+      "contentHash": "fc529e95db764d2a64f5426b632c0de9",
+      "sourceName": "script/Deploy.s.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -904,19 +986,21 @@
         "lib/forge-std/src/console.sol",
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
-        "lib/forge-std/src/safeconsole.sol"
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/solmate/src/tokens/ERC20.sol",
+        "src/Greeter.sol"
       ],
-      "versionRequirement": "^0.8.13",
+      "versionRequirement": "^0.8.17",
       "artifacts": {
-        "CounterScript": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Counter.s.sol/CounterScript.json"
+        "Deploy": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Deploy.s.sol/Deploy.json"
         }
       }
     },
-    "src/Counter.sol": {
-      "lastModificationDate": 1689984292736,
-      "contentHash": "ae6c800a2b4c57768024d6e9423d39e8",
-      "sourceName": "src/Counter.sol",
+    "src/Greeter.sol": {
+      "lastModificationDate": 1689984858076,
+      "contentHash": "e1925dbd79fc6bcb18ffc007878d9622",
+      "sourceName": "src/Greeter.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -946,18 +1030,63 @@
           "libraries": {}
         }
       },
-      "imports": [],
-      "versionRequirement": "^0.8.13",
+      "imports": [
+        "lib/solmate/src/tokens/ERC20.sol"
+      ],
+      "versionRequirement": "^0.8.17",
       "artifacts": {
-        "Counter": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Counter.sol/Counter.json"
+        "Greeter": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Greeter.sol/Greeter.json"
         }
       }
     },
-    "test/Counter.t.sol": {
-      "lastModificationDate": 1689984292737,
-      "contentHash": "b1a6521ba9c61d5266bab1fc9a057d68",
-      "sourceName": "test/Counter.t.sol",
+    "src/Merkle.sol": {
+      "lastModificationDate": 1689984846738,
+      "contentHash": "66848ccd2af8c61179b2b7985717132f",
+      "sourceName": "src/Merkle.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/solady/src/utils/MerkleProofLib.sol"
+      ],
+      "versionRequirement": "=0.8.17",
+      "artifacts": {
+        "Merkle": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Merkle.sol/Merkle.json"
+        }
+      }
+    },
+    "test/Greeter.t.sol": {
+      "lastModificationDate": 1689984863816,
+      "contentHash": "a95d04f4f85656b0171daaca75c627a3",
+      "sourceName": "test/Greeter.t.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -1006,12 +1135,75 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "src/Counter.sol"
+        "lib/solmate/src/tokens/ERC20.sol",
+        "src/Greeter.sol"
       ],
-      "versionRequirement": "^0.8.13",
+      "versionRequirement": "^0.8.17",
       "artifacts": {
-        "CounterTest": {
-          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Counter.t.sol/CounterTest.json"
+        "GreeterTest": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Greeter.t.sol/GreeterTest.json"
+        }
+      }
+    },
+    "test/Merkle.t.sol": {
+      "lastModificationDate": 1689984836669,
+      "contentHash": "e1a2509f41ca84a6f0de6a5678ee1db6",
+      "sourceName": "test/Merkle.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "lib/solady/src/utils/MerkleProofLib.sol",
+        "src/Merkle.sol"
+      ],
+      "versionRequirement": "=0.8.17",
+      "artifacts": {
+        "MerkleTest": {
+          "0.8.17+commit.8df45f5f.Darwin.appleclang": "Merkle.t.sol/MerkleTest.json"
         }
       }
     }
