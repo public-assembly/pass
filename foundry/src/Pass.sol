@@ -86,23 +86,17 @@ contract PASS is BasePaymaster {
     //     _transfer(sender, address(this), charge);
     }
 
-
-    struct PaymasterData {
-        address paymasterId;
-        bytes32[] encodedMerkleProof;
-    }
-
     /**
      * @dev Decodes paymaster data assuming it follows PaymasterData
      */
     function _decodePaymasterData(
         UserOperation calldata op
-    ) internal pure returns (PaymasterData memory) {
+    ) internal pure returns (bytes32[] memory) {
         bytes calldata paymasterAndData = op.paymasterAndData;
-        (address paymasterId, bytes32[] memory encodedMerkleProof) = abi.decode(
+        (bytes32[] memory encodedMerkleProof) = abi.decode(
             paymasterAndData[20:],
-            (address, bytes32[])
+            (bytes32[])
         );
-        return PaymasterData(paymasterId, encodedMerkleProof);
+        return encodedMerkleProof;
     }
 }

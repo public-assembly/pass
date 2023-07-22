@@ -54,6 +54,19 @@ contract MerkleTest is Test {
         require(allowed == false, "allowed should return false");
     }
 
+    function decodeHelper(bytes calldata paymasterAndData) public returns (bytes32[] memory) {
+        (bytes32[] memory decodedMerkleProof) = abi.decode(
+            paymasterAndData[20:],
+            (bytes32[])
+        );
+        return decodedMerkleProof;
+    }    
+
+    // function decodeHelperExternal(bytes calldata paymasterAndData) external pure returns (bytes32[] memory) {
+    //     bytes calldata slicedData = paymasterAndData[20:];
+    //     return decodeHelper(slicedData);
+    // }     
+
 
     function test_ourLittleDecoder() external {
         address ourPaymaster = 0x6a2518fdA4b9EaCe4fAd9120a61C8Eb255DEb624;
@@ -61,27 +74,23 @@ contract MerkleTest is Test {
         ourMerkleProof[0] = 0xcc6133a2c98d9f761a9f9d57e1b8364e5bdb293b8e906fdd922d481837474bb9;
         ourMerkleProof[1] = 0xc70b79d5f2cf82eef5c5bbe0cf674ea7612e9657c437c73b969b5a167a6dda7a;
 
-        bytes[] memory bro = new bytes[](1);
-        bro[0] = bytes(0x6a2518fda4b9eace4fad9120a61c8eb255deb62400000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000002cc6133a2c98d9f761a9f9d57e1b8364e5bdb293b8e906fdd922d481837474bb9c70b79d5f2cf82eef5c5bbe0cf674ea7612e9657c437c73b969b5a167a6dda7a);
+        bytes memory bro = hex"6a2518fda4b9eace4fad9120a61c8eb255deb62400000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000002cc6133a2c98d9f761a9f9d57e1b8364e5bdb293b8e906fdd922d481837474bb9c70b79d5f2cf82eef5c5bbe0cf674ea7612e9657c437c73b969b5a167a6dda7a";
 
-        (
-            address paymaster,
-            bytes32[] memory decodedMerkleProof
-        ) = decodeHelper(bro[0]);
+        (bytes32[] memory decodedMerkleProof) = decodeHelper(bro);
 
-        require(paymaster == ourPaymaster, "address decoding didnt work");
-        // require(keccak256(decodedMerkleProof) == keccak256(ourMerkleProof), "merkle proof decoding didnt work");
+        // require(paymaster == ourPaymaster, "address decoding didnt work");
+        require(keccak256(abi.encodePacked(decodedMerkleProof)) == keccak256(abi.encodePacked(ourMerkleProof)), "merkle proof decoding didnt work");
     }
 
-    function decodeHelper(bytes calldata paymasterAndData) public pure returns (address, bytes32[] memory) {
-        // decode
-        (address paymasterId, bytes32[] memory decodedMerkleProof) = abi.decode(
-            paymasterAndData[20:],
-            (address, bytes32[])
-        );
-        // return
-        return (paymasterId, decodedMerkleProof);
-    }
+    // function decodeHelper(bytes calldata paymasterAndData) public pure returns (bytes32[] memory) {
+    //     // decode
+    //     (bytes32[] memory decodedMerkleProof) = abi.decode(
+    //         paymasterAndData[20:],
+    //         (bytes32[])
+    //     );
+    //     // return
+    //     return decodedMerkleProof;
+    // }
 
     // function bytesMemoryToCalldata(bytes memory data) public pure returns (bytes calldata) {
     //     return convertToCalldata(data);
