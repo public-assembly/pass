@@ -11,10 +11,10 @@ import {MerkleProofLib} from "solady/utils/MerkleProofLib.sol";
  * Paymaster which pays for txs if the user is on an allowlist determined by a settable merkle root. 
  * For example it can represent membership in a DAO.
  */
-contract Pass is BasePaymaster {
+contract PASS is BasePaymaster {
     using UserOperationLib for UserOperation;
 
-    bytes32 merkleRoot;
+    bytes32 public merkleRoot;
 
     constructor(address initialOwner, bytes32 initialMerkleRoot, IEntryPoint _entryPoint) BasePaymaster(_entryPoint) {
         _transferOwnership(initialOwner);
@@ -84,5 +84,25 @@ contract Pass is BasePaymaster {
     //     uint256 charge = getTokenValueOfEth(actualGasCost + COST_OF_POST);
     //     //actualGasCost is known to be no larger than the above requiredPreFund, so the transfer should succeed.
     //     _transfer(sender, address(this), charge);
+    }
+
+
+    struct PaymasterData {
+        address paymasterId;
+        bytes32[] encodedMerkleProof;
+    }
+
+    /**
+     * @dev Decodes paymaster data assuming it follows PaymasterData
+     */
+    function _decodePaymasterData(
+        UserOperation calldata op
+    ) internal pure returns (PaymasterData memory) {
+        bytes calldata paymasterAndData = op.paymasterAndData;
+        (address paymasterId, bytes32[] memory encodedMerkleProof) = abi.decode(
+            paymasterAndData[20:],
+            (address, bytes32[])
+        );
+        return PaymasterData(paymasterId, encodedMerkleProof);
     }
 }

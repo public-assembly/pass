@@ -23,6 +23,13 @@ contract MerkleTest is Test {
 
     function setUp() external {
         merkle = new Merkle(merkleRoot);
+
+        address paymaster = 0x6a2518fdA4b9EaCe4fAd9120a61C8Eb255DEb624;
+        bytes32[] memory lolProof = new bytes32[](2);
+        lolProof[0] = 0xcc6133a2c98d9f761a9f9d57e1b8364e5bdb293b8e906fdd922d481837474bb9;
+        lolProof[1] = 0xc70b79d5f2cf82eef5c5bbe0cf674ea7612e9657c437c73b969b5a167a6dda7a;
+        bytes memory valuesForLife = abi.encodePacked(paymaster, lolProof);
+        console2.logBytes(valuesForLife);
     }
 
     function test_IsAllowed() external {
@@ -46,4 +53,67 @@ contract MerkleTest is Test {
         bool allowed = merkle.isAllowed(proof);        
         require(allowed == false, "allowed should return false");
     }
+
+
+    function test_ourLittleDecoder() external {
+        address ourPaymaster = 0x6a2518fdA4b9EaCe4fAd9120a61C8Eb255DEb624;
+        bytes32[] memory ourMerkleProof = new bytes32[](2);
+        ourMerkleProof[0] = 0xcc6133a2c98d9f761a9f9d57e1b8364e5bdb293b8e906fdd922d481837474bb9;
+        ourMerkleProof[1] = 0xc70b79d5f2cf82eef5c5bbe0cf674ea7612e9657c437c73b969b5a167a6dda7a;
+
+        bytes[] memory bro = new bytes[](1);
+        bro[0] = bytes(0x6a2518fda4b9eace4fad9120a61c8eb255deb62400000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000002cc6133a2c98d9f761a9f9d57e1b8364e5bdb293b8e906fdd922d481837474bb9c70b79d5f2cf82eef5c5bbe0cf674ea7612e9657c437c73b969b5a167a6dda7a);
+
+        (
+            address paymaster,
+            bytes32[] memory decodedMerkleProof
+        ) = decodeHelper(bro[0]);
+
+        require(paymaster == ourPaymaster, "address decoding didnt work");
+        // require(keccak256(decodedMerkleProof) == keccak256(ourMerkleProof), "merkle proof decoding didnt work");
+    }
+
+    function decodeHelper(bytes calldata paymasterAndData) public pure returns (address, bytes32[] memory) {
+        // decode
+        (address paymasterId, bytes32[] memory decodedMerkleProof) = abi.decode(
+            paymasterAndData[20:],
+            (address, bytes32[])
+        );
+        // return
+        return (paymasterId, decodedMerkleProof);
+    }
+
+    // function bytesMemoryToCalldata(bytes memory data) public pure returns (bytes calldata) {
+    //     return convertToCalldata(data);
+    // }
+
+    // function convertToCalldata(bytes calldata data) public pure returns (bytes calldata) {
+    //     return data;
+    // }    
+
+
 }
+
+
+
+// import {Test} from "forge-std/Test.sol";
+// import {console2} from "forge-std/console2.sol";
+
+// contract PASSTest is Test {
+
+//     /*
+//         Tests to write:
+//         1. Do deposits work 
+//             a) call `depositTo` on Entrypoint.sol and pass in PASS as the `to` value along with X msgValue
+//             b) confirm that `balanceOf` on PASS returns the expected deposits[account].deposit value
+//         2. Generate smart accounts from counterfactual EOAs and prove they belong in merkle tree
+//             a) provide (hardccode) two example EOAs
+//             b) generate smart accounts for both of them
+//             c) provide (hardcode) merkleRoot based on both of those smart accounts
+//             d) confirm those accounts return `true` on some type of `isAllowed` public call on paymaster
+//         3. Perform a successful `simulateValidation`
+//             a) pass in a UserOp to the Entropoint contract that successfully reverts on the Entrypoint
+//     */
+
+
+//     function setUp() external {
