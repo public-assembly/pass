@@ -2,6 +2,9 @@
 pragma solidity 0.8.17;
 
 import {BasePaymaster} from "account-abstraction/core/BasePaymaster.sol";
+import {IEntryPoint} from "account-abstraction/interfaces/IEntryPoint.sol";
+import {UserOperation} from "account-abstraction/interfaces/UserOperation.sol";
+import {UserOperationLib} from "account-abstraction/interfaces/UserOperation.sol";
 import {MerkleProofLib} from "solady/utils/MerkleProofLib.sol";
 
 /**
@@ -9,18 +12,29 @@ import {MerkleProofLib} from "solady/utils/MerkleProofLib.sol";
  * For example it can represent membership in a DAO.
  */
 contract Pass is BasePaymaster {
+    using UserOperationLib for UserOperation;
 
     bytes32 merkleRoot;
 
     constructor(address initialOwner, bytes32 initialMerkleRoot, IEntryPoint _entryPoint) BasePaymaster(_entryPoint) {
         _transferOwnership(initialOwner);
-        if (initialMerkleRoot == bytes32(0)) return;
-        merkletRoot = initialMerkleRoot;    
+        merkleRoot = initialMerkleRoot;    
     }
 
     error Not_On_Allowlist();
 
+    event MerkleRootSet(
+        address sender,
+        bytes32 merkleRoot
+    );
+
+    function setMerkleRoot(bytes32 newMerkleRoot) onlyOwner external {
+        merkleRoot = newMerkleRoot;
+        emit MerkleRootSet(msg.sender, newMerkleRoot);        
+    }
+
     /**
+      * TODO: update comments
       * validate the request:
       * if this is a constructor call, make sure it is a known account.
       * verify the sender has enough tokens.
@@ -39,10 +53,10 @@ contract Pass is BasePaymaster {
         (
             address paymasterAddress,
             bytes memory encodedMerkleProof
-        ) = abi.decode(userOp.paymasterAndData, (bytes));
+        ) = abi.decode(userOp.paymasterAndData, (address, bytes));
 
         // Decode bytes encoded merkleProof into decoded bytes32[] merkleProof
-        (bytes32[] memory decodedMerkleProof) = abi.decode(encodedMerkleProof, (bytes));
+        (bytes32[] memory decodedMerkleProof) = abi.decode(encodedMerkleProof, (bytes32[]));
 
         if (!MerkleProofLib.verify(decodedMerkleProof, merkleRoot, leaf)) revert Not_On_Allowlist();
 
