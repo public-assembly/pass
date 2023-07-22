@@ -1,2 +1,4 @@
 solmate/=lib/solmate/src/
 solady/=lib/solady/src/
+account-abstraction/=lib/account-abstraction/contracts/
+openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/
