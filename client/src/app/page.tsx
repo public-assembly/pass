@@ -1,13 +1,15 @@
-'use client';
+// 'use client';
 
-import { Header } from '../components';
-import { Airstack } from '../airstack/Airstack';
+import { Header, Playground } from '../components';
+import { ServerPlayground } from '../components';
 
 export default function Page() {
   return (
     <>
       <Header />
-      <Airstack />
+      {/* <Playground /> */}
+      {/* <Airstack /> */}
+      <ServerPlayground />
     </>
   );
 }
