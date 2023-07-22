@@ -1,3 +1,6 @@
 [submodule "foundry/lib/solady"]
 	path = foundry/lib/solady
 	url = https://github.com/Vectorized/solady
+[submodule "foundry/lib/account-abstraction"]
+	path = foundry/lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
