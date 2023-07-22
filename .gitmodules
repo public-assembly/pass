@@ -1,0 +1,3 @@
+[submodule "foundry/lib/solady"]
+	path = foundry/lib/solady
+	url = https://github.com/Vectorized/solady
