@@ -5,14 +5,15 @@ import {BasePaymaster} from "account-abstraction/core/BasePaymaster.sol";
 import {MerkleProofLib} from "solady/utils/MerkleProofLib.sol";
 
 /**
- *   Paymaster which pays for txs if the user has a token balance. For example it can represent participation in a DAO.
+ * Paymaster which pays for txs if the user is on an allowlist determined by a settable merkle root. 
+ * For example it can represent membership in a DAO.
  */
 contract Pass is BasePaymaster {
 
     bytes32 merkleRoot;
 
     constructor(address initialOwner, bytes32 initialMerkleRoot, IEntryPoint _entryPoint) BasePaymaster(_entryPoint) {
-
+        _transferOwnership(initialOwner);
         if (initialMerkleRoot == bytes32(0)) return;
         merkletRoot = initialMerkleRoot;    
     }
