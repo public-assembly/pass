@@ -2,13 +2,13 @@
 
 import { BiconomyInstance } from '../biconomy/BiconomyInstance';
 import { Header } from '../components';
-import { Airstack } from '../components/Airstack';
+import { TokenSearch } from '../components/TokenSearch';
 
 export default function Page() {
   return (
     <>
       <Header />
-      <Airstack />
+      <TokenSearch />
       <BiconomyInstance />
     </>
   );
