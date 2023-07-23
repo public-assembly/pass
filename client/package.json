@@ -1,6 +1,7 @@
 {
-  "name": "caisson",
-  "version": "0.0.2",
+  "name": "pass",
+  "version": "0.0.1",
+  "author" : "Public Assembly",
   "private": true,
   "scripts": {
     "dev": "next dev",
