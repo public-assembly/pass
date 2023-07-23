@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Hex, type Hash } from 'viem';
+import { Hex, type Hash, encodeFunctionData } from 'viem';
+import { messageBoardAbi } from '../abi';
 import { createTransaction } from '../biconomy/createTransaction';
 import { createAccount } from '../biconomy/createAccount';
 import { useEthersSigner } from '../utils';
@@ -19,10 +20,11 @@ export function UpdateMessage() {
     biconomySmartAccount: BiconomySmartAccount
   ) {
     await createTransaction({
-      messageData: ethers.utils.defaultAbiCoder.encode(
-        ['string'],
-        [message]
-      ) as Hash,
+      messageData: encodeFunctionData({
+        abi: messageBoardAbi,
+        functionName: 'setMessage',
+        args: [message as string]
+      }) as Hash,      
       smartAccount: biconomySmartAccount,
     });
   }
