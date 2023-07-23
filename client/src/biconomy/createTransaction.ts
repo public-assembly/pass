@@ -22,6 +22,7 @@ export async function createTransaction({
   messageData,
   smartAccount,
 }: CreateTransactionProps) {
+
   const transaction = {
     to: messageBoard,
     data: messageData,
@@ -37,11 +38,11 @@ export async function createTransaction({
   }
 
   // Use ether actor and lanyard to get the merkle proof for a given counterfactual address for the current merkle root
-  const fetchMerkleProof = () => {
+  const fetchMerkleProof = async () => {
     if (!passPaymaster) {
       return;
     }
-    fetch(`https://mumbai.ether.actor/${passPaymaster}/merkleRoot`)
+    return fetch(`https://mumbai.ether.actor/${passPaymaster}/merkleRoot`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error fetching total supply: ${response.status}`);
@@ -57,14 +58,20 @@ export async function createTransaction({
         if (!proofResponse.ok) {
           throw new Error(`Error fetching proof data: ${proofResponse.status}`);
         }
-        return proofResponse.text(); // Parse the response as JSON
+        return proofResponse.json().then(data => {
+          let proof = data.proof;
+          console.log(proof);
+          return proof;  // return proof here
+        });        
       });
   };
+  
+  const proofResponse = await fetchMerkleProof();
 
   const encodedMerkleProof = ethers.utils.defaultAbiCoder.encode(
     ['bytes32[]'],
-    [fetchMerkleProof()]
-  );
+    [proofResponse]
+  );  
 
   // Concatenates the address of the Paymaster with a bytes-encoded bytes32 array
   const encodedPaymasterData = ethers.utils.hexConcat([
