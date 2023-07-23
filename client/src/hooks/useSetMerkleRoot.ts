@@ -19,10 +19,11 @@ export function useSetMerkleRoot({ merkleRoot }: Props) {
     args: [
       merkleRoot, // mint quantity always hardcoded to 1
     ],
+    enabled: !!merkleRoot ? true : false
   });
 
   const {
-    write,
+    write: writeMerkleRoot,
     data,
     error: writeError,
     isError,
@@ -40,7 +41,7 @@ export function useSetMerkleRoot({ merkleRoot }: Props) {
   return {
     config,
     error,
-    write,
+    writeMerkleRoot,
     writeError,
     data,
     isError,

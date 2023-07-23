@@ -1,8 +1,9 @@
-export { TokenSearch } from './TokenSearch'
-export { Authenticate } from './Authenticate'
-export { Banner} from './Banner'
-export { Caisson } from './Caisson'
-export { Deploy } from './Deploy'
-export { Header } from './Header'
-export { ServerPlayground } from './ServerPlayground'
-export { UpdateMessage } from './UpdateMessage'
+export { AllowlistDash } from './AllowlistDash'
+export { Authenticate } from './Authenticate';
+export { Banner } from './Banner';
+export { Caisson } from './Caisson';
+export { Deploy } from './Deploy';
+export { Header } from './Header';
+export { UpdateMessage } from './UpdateMessage';
+export { SearchResults } from './SearchResults'
+export { TokenSearch } from './TokenSearch';
