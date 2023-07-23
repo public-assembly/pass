@@ -1,4 +1,4 @@
-# Public Assembly Sponsorhip System, a hack at ETHGlobal Paris.
+# Public Assembly Sponsorhip System
 
 Our app facilitates ERC4337 based programmatic transaction gas sponsorship depending on a sender’s inclusion on an allowlist. 
 
