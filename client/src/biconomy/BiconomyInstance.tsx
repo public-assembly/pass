@@ -9,12 +9,7 @@ import { polygonMumbai } from 'wagmi/chains';
 import { providers, Wallet } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useEthersSigner } from '../utils';
-
-const bundler: IBundler = new Bundler({
-  bundlerUrl: 'https://bundler.biconomy.io/api/v2/80001/abc', // you can get this value from biconomy dashboard.
-  chainId: ChainId.POLYGON_MUMBAI,
-  entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
-});
+import { bundlerInstance } from './bundlerInstance'
 
 export function BiconomyInstance() {
   const [smartAccount, setSmartAccount] = useState<any>(null);
@@ -31,7 +26,7 @@ export function BiconomyInstance() {
         const biconomySmartAccountConfig: BiconomySmartAccountConfig = {
           signer: signer as providers.JsonRpcSigner,
           chainId: ChainId.POLYGON_MUMBAI,
-          bundler: bundler,
+          bundler: bundlerInstance,
           // paymaster: paymaster
         };
         let biconomySmartAccount = new BiconomySmartAccount(
