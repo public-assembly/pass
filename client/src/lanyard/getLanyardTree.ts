@@ -28,8 +28,7 @@ const getLanyardTree = async (
       const { merkleRoot } = await lanyard.createTree({
         unhashedLeaves: counterFactuals,
       });
-      const merkleHash: Hash = toHash(merkleRoot); // Convert the merkleRoot to Hash type
-      return { merkle: merkleHash, error: null };
+      return { merkle: merkleRoot as Hash, error: null };
     } else {
       return { merkle: null, error: { message: 'lanyard tree failed' } };
     }

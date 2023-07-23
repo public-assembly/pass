@@ -76,15 +76,21 @@ export function TokenSearch() {
             className='font-unica77 text-base text-primary px-4 focus:outline-none w-[400px] h-[56px]'
           />
         </label>
-
-        <button
+        {!root ? <button
           type='submit'
           className='w-[400px] h-14 bg-neutral-800 justify-center items-center inline-flex'
         >
           <div className='text-zinc-100 text-base font-normal italic uppercase leading-normal tracking-[4px]'>
-            Submit
+            Search
           </div>
         </button>
+        :
+        <button onClick={()=>writeMerkleRoot?.()} className='w-[400px] h-14 bg-neutral-800 justify-center items-center inline-flex'>
+         <div className='text-zinc-100 text-base font-normal italic uppercase leading-normal tracking-[4px]'>
+          Update
+          </div>
+        </button>
+      }
       </form>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
