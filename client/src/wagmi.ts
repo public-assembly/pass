@@ -10,7 +10,7 @@ const alchemyKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY
 const walletConnectID = process.env.NEXT_PUBLIC_WALLET_CONNECT_ID
 
 const { chains } = configureChains(
-  [polygon, polygonMumbai],
+  [polygonMumbai],
   [alchemyProvider({ apiKey: alchemyKey as string }), publicProvider()],
 )
 

@@ -1,13 +1,13 @@
 import { ConnectKitButton } from 'connectkit';
-import { Caisson } from './Caisson';
+import { Logo } from './Logo';
 
 export function Header() {
   return (
     <div className='flex justify-between items-center p-4'>
-      <Caisson />
       <div className='flex items-center gap-8'>
         <ConnectKitButton />
       </div>
+      <Logo />
     </div>
   );
 }
