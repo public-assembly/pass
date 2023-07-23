@@ -1,4 +1,4 @@
-export { Airstack } from './Airstack'
+export { TokenSearch } from './TokenSearch'
 export { Authenticate } from './Authenticate'
 export { Banner} from './Banner'
 export { Caisson } from './Caisson'
