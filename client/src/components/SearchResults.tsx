@@ -5,7 +5,7 @@ type Props = {
 export const SearchResults = ({ owners }: Props) => {
   return (
     <div>
-      <strong>List of Owners</strong>
+      <strong>Current Holders</strong>
       {owners && owners.length > 0 ? (
         <ul>
           {owners.map((address, i) => (

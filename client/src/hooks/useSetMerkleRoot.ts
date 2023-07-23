@@ -12,6 +12,9 @@ type Props = {
 };
 
 export function useSetMerkleRoot({ merkleRoot }: Props) {
+
+  console.log("whats getting passed into this: ", merkleRoot)
+
   const { config, error } = usePrepareContractWrite({
     address: passPaymaster,
     abi: passAbi,
