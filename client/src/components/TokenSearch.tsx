@@ -77,7 +77,7 @@ export function TokenSearch() {
       </form>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && <SearchResults owners={owners} />}
+      {data && !loading && <SearchResults owners={owners} />}
     </div>
   );
 }
