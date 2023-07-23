@@ -1,16 +1,17 @@
 import { init, useLazyQuery } from '@airstack/airstack-react';
 import { useCallback, useEffect, useState } from 'react';
 import { holdersQuery } from '../airstack/holdersQuery';
-import { getAddressesForCounterFactualAccounts } from '../biconomy/getAddressesForCounterFactualAccounts';
+import { useOwners } from '../contexts/OwnersContext'; // Import the useOwners hook
+import useSetMerkleRoot from '../hooks/useSetMerkleRoot';
+import getLanyardTree from '../lanyard/useLanyardTree';
 import SearchResults from './SearchResults';
 
 init('aa041bf62ade490285e2af27504d6506');
-const LIMIT = 20;
+export type OwnerAddress = `0x${string}`;
 
 export function TokenSearch() {
-  const [owners, setOwners] = useState<`0x${string}`[]>([]);
+  const { owners, setOwners } = useOwners();
   const [contractAddress, setContractAddress] = useState<string>('');
-  console.log('contract address: ', contractAddress, typeof contractAddress);
 
   const [fetch, { data, loading, error }] = useLazyQuery(holdersQuery);
 
@@ -34,27 +35,33 @@ export function TokenSearch() {
     if (data) {
       const ownerAddresses = data?.TokenBalances?.TokenBalance?.map(
         (item: any) => item?.owner?.addresses[0]
-      );
+      ) as (OwnerAddress | null)[]; // Explicitly define the type to include null
 
-      setOwners(ownerAddresses);
+      // Update the global state with the result of the search
+      setOwners(
+        ownerAddresses.filter((address) => address !== null) as OwnerAddress[]
+      );
     }
-  }, [data]);
+  }, [data, setOwners]);
 
   useEffect(() => {
     (async () => {
-      if (data) {
-        console.log('the addresss: ', owners); // owners will contain the latest value here
+      if (data && owners.length > 0) {
         try {
-          const counterFacts = await getAddressesForCounterFactualAccounts({
-            holdersQueryResponse: owners,
-          });
-          console.log('counters: ', counterFacts);
+          const lanyardTree = await getLanyardTree(owners);
+          console.log('Lanyard Tree:', lanyardTree.merkle);
+          if (lanyardTree.merkle !== null) {
+            // Check if merkle is not null before calling useSetMerkleRoot
+            useSetMerkleRoot({
+              merkleRoot: lanyardTree.merkle,
+            });
+          }
         } catch (err) {
-          console.log('error', err);
+          console.log('Error fetching lanyard tree:', err);
         }
       }
     })();
-  }, [data, owners]); // Use 'data' here, not 'owners'
+  }, [data, owners]);
 
   return (
     <div className='p-4'>
