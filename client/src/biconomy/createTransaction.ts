@@ -16,13 +16,11 @@ type UserOpGasResponse = {
 type CreateTransactionProps = {
   messageData: Hash;
   smartAccount: BiconomySmartAccount;
-  merkleProof: Hash[];
 };
 
 export async function createTransaction({
   messageData,
   smartAccount,
-  merkleProof,
 }: CreateTransactionProps) {
   const transaction = {
     to: messageBoard,
@@ -38,9 +36,34 @@ export async function createTransaction({
     console.log('error received ', e);
   }
 
+  // Use ether actor and lanyard to get the merkle proof for a given counterfactual address for the current merkle root
+  const fetchMerkleProof = () => {
+    if (!passPaymaster) {
+      return;
+    }
+    fetch(`https://mumbai.ether.actor/${passPaymaster}/merkleRoot`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error fetching total supply: ${response.status}`);
+        }
+        return response.text(); // Extract the response text
+      })
+      .then((merkleRoot) => {
+        return fetch(
+          `https://lanyard.org/api/v1/proof?root=${merkleRoot}&unhashedLeaf=${userOp.sender}`
+        );
+      })
+      .then((proofResponse) => {
+        if (!proofResponse.ok) {
+          throw new Error(`Error fetching proof data: ${proofResponse.status}`);
+        }
+        return proofResponse.text(); // Parse the response as JSON
+      });
+  };
+
   const encodedMerkleProof = ethers.utils.defaultAbiCoder.encode(
     ['bytes32[]'],
-    [merkleProof]
+    [fetchMerkleProof()]
   );
 
   // Concatenates the address of the Paymaster with a bytes-encoded bytes32 array

@@ -1,14 +1,48 @@
 import { useState } from 'react';
+import { Hex, type Hash } from 'viem';
+import { createTransaction } from '../biconomy/createTransaction';
+import { createAccount } from '../biconomy/createAccount';
+import { useEthersSigner } from '../utils';
+import { polygonMumbai } from 'wagmi/chains';
+import { providers, ethers } from 'ethers';
+import { BiconomySmartAccount } from '@biconomy/account';
 
 export function UpdateMessage() {
   const [message, setMessage] = useState<string>();
+  const signer = useEthersSigner({ chainId: polygonMumbai.id });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
 
+  async function handleSponsoredTransaction(
+    biconomySmartAccount: BiconomySmartAccount
+  ) {
+    await createTransaction({
+      messageData: ethers.utils.defaultAbiCoder.encode(
+        ['string'],
+        [message]
+      ) as Hash,
+      smartAccount: biconomySmartAccount,
+    });
+  }
+
+  function handleUnsponsoredTransaction() {
+    // TODO: implement
+  }
+
+  let allowed: Boolean = true;
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const { biconomySmartAccount } = await createAccount({
+      signer: signer as providers.JsonRpcSigner,
+    });
+    if (allowed) {
+      handleSponsoredTransaction(biconomySmartAccount);
+    } else {
+      handleUnsponsoredTransaction();
+    }
   };
   return (
     <div className='flex w-full'>
