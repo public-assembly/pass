@@ -1,33 +1,91 @@
-// 'use client'
+import { init, useLazyQuery } from '@airstack/airstack-react';
+import { useEffect, useState } from 'react';
+import { holdersQuery } from '../airstack/holdersQuery';
 
-// import { init, useQuery } from '@airstack/airstack-react';
-// import { HoldersQuery } from './holdersQuery';
+init('aa041bf62ade490285e2af27504d6506');
 
-// init('aa041bf62ade490285e2af27504d6506');
+export function Airstack() {
+  const [owners, setOwners] = useState<`0x${string}`[]>([]);
+  const [contractAddress, setContractAddress] = useState<string>('');
+  console.log('contract address: ', contractAddress, typeof contractAddress);
 
-// export function Airstack() {
-//   // variables
-//   const { data, loading, error } = useQuery(HoldersQuery, { cache: false });
+  const [fetchTokens, { data, loading, error }] = useLazyQuery(holdersQuery);
 
-//   if (loading) {
-//     return <p>Loading...</p>;
-//   }
+  const handleContractAddressChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setContractAddress(event.target.value);
+  };
 
-//   if (error) {
-//     return <p>Error: {error.message}</p>;
-//   }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    fetchTokens({
+      contractAddress,
+    });
+  };
 
-//   // console.log(typeof data);
+  useEffect(() => {
+    if (data) {
+      // const ownerAddresses = data.TokenBalances.TokenBalance.map(
+      //   (item: any) => item.owner.addresses[0]
+      // );
 
-//   let addressesArray = data.TokenBalances.TokenBalance.map(
-//     (token: any) => {
-//       const [address] = token.owner.addresses; // Destructuring the addresses array to get the first element
-//       return address;
-//     }
-//   );
+      // setOwners(ownerAddresses);
+      console.log('dataaaa: ', data);
+    }
+  }, [data]);
 
-//   console.log(addressesArray);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (owners) {
+  //       console.log('the addresss: ', owners);
+  //       try {
+  //         const counterFacts = await getAddressesForCounterFactualAccounts({
+  //           holdersQueryResponse: owners,
+  //         });
+  //         console.log('counters: ', counterFacts);
+  //       } catch (err) {
+  //         console.log('error', err);
+  //       }
+  //     }
+  //   })();
+  // }, [owners]);
 
-//   // Render your component using the data returned by the query
-//   return <>{JSON.stringify(data)}</>;
-// }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  return (
+    <div>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Enter Contract Address:
+            <input
+              type='text'
+              value={contractAddress}
+              onChange={handleContractAddressChange}
+            />
+          </label>
+          <button type='submit'>Submit</button>
+        </form>
+      </div>
+      <div>
+        <strong>List of Owners</strong>
+        {owners.length > 0 ? (
+          <ul>
+            {owners.map((address, i) => (
+              <li key={i}>{address}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No owners data available</p>
+        )}
+      </div>
+    </div>
+  );
+}

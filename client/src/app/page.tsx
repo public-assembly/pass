@@ -1,13 +1,14 @@
 'use client';
 
-import { Header } from '../components';
 import { BiconomyInstance } from '../biconomy/BiconomyInstance';
+import { Header } from '../components';
+import { Airstack } from '../components/Airstack';
 
 export default function Page() {
   return (
     <>
       <Header />
-      {/* <ServerPlayground /> */}
+      <Airstack />
       <BiconomyInstance />
     </>
   );
