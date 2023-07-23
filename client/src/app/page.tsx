@@ -1,13 +1,13 @@
 'use client';
 
-import { BiconomyInstance } from '../biconomy/BiconomyInstance';
-import { Header, Banner, Authenticate, UpdateMessage } from '../components';
-import { TokenSearch } from '../components/TokenSearch';
 import { useAccount } from 'wagmi';
+import { BiconomyInstance } from '../biconomy/BiconomyInstance';
+import { Authenticate, Banner, Header, UpdateMessage } from '../components';
+import { TokenSearch } from '../components/TokenSearch';
 
 export default function Page() {
   const { isConnected } = useAccount();
-  console.log(isConnected)
+  console.log(isConnected);
 
   if (isConnected) {
     return (
@@ -15,7 +15,7 @@ export default function Page() {
         <Header />
         <Banner />
         <UpdateMessage />
-        {/* <TokenSearch /> */}
+        <TokenSearch />
         <BiconomyInstance />
       </>
     );

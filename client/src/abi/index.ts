@@ -1,2 +1,3 @@
-export * from './messageBoardAbi'
-export * from './smartAccountFactoryAbi'
+export * from './messageBoardAbi';
+export * from './passAbi';
+export * from './smartAccountFactoryAbi';
