@@ -2,8 +2,13 @@
 
 import { useAccount } from 'wagmi';
 import { BiconomyInstance } from '../biconomy/BiconomyInstance';
-import { Authenticate, Banner, Header, UpdateMessage } from '../components';
-import { TokenSearch } from '../components/TokenSearch';
+import {
+  Authenticate,
+  Banner,
+  Header,
+  UpdateMessage,
+  AllowlistDash,
+} from '../components';
 
 export default function Page() {
   const { isConnected } = useAccount();
@@ -15,7 +20,7 @@ export default function Page() {
         <Header />
         <Banner />
         <UpdateMessage />
-        <TokenSearch />
+        <AllowlistDash />
         <BiconomyInstance />
       </>
     );

@@ -23,7 +23,7 @@ export function Banner() {
 
         <div className='bg w-full h-48 py-12 left-0 top-0 absolute border-t border-b border-neutral-800 justify-center items-center inline-flex'>
           {/* 125 */}
-          <Marquee speed={1}>
+          <Marquee speed={125}>
             <h1 className='text-black text-8xl font-VT323 uppercase leading-[64px]'>
               {bannerMessage}
             </h1>

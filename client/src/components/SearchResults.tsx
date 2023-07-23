@@ -2,7 +2,7 @@ type Props = {
   owners?: `0x${string}`[];
 };
 
-const SearchResults = ({ owners }: Props) => {
+export const SearchResults = ({ owners }: Props) => {
   return (
     <div>
       <strong>List of Owners</strong>
